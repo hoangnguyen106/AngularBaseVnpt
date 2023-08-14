@@ -20,19 +20,36 @@
             "outputPath": "dist/angular-base-vnpt",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/admin-lte/plugins/toastr/toastr.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/admin-lte/plugins/jquery/jquery.min.js",
+              "./node_modules/admin-lte/plugins/jquery-ui/jquery-ui.min.js",
+              "./node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js",
+              "./node_modules/admin-lte/plugins/chart.js/Chart.min.js",
+              "./node_modules/admin-lte/plugins/toastr/toastr.min.js",
+              "./node_modules/admin-lte/plugins/sparklines/sparkline.js",
+              "./node_modules/admin-lte/plugins/moment/moment.min.js",
+              "./node_modules/admin-lte/plugins/jqvmap/jquery.vmap.min.js",
+              "./node_modules/admin-lte/plugins/jqvmap/maps/jquery.vmap.usa.js",
+              "./node_modules/admin-lte/plugins/jquery-knob/jquery.knob.min.js",
+              "./node_modules/admin-lte/plugins/inputmask/jquery.inputmask.bundle.js",
+              "./node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js",
+              "./node_modules/admin-lte/plugins/summernote/summernote-bs4.min.js",
+              "./node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js",
+              "./node_modules/daterangepicker/daterangepicker.js",
+              "./node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js",
+              "./node_modules/admin-lte/dist/js/adminlte.js",
+              "./node_modules/admin-lte/dist/js/demo.js",
+              "./node_modules/admin-lte/dist/js/pages/dashboard.js",
+              "./node_modules/admin-lte/plugins/sweetalert2/sweetalert2.all.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -82,19 +99,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }

@@ -1,5 +1,5 @@
 export enum Urls {
-  'login' = '/auth/login',
+  'login' = '/auth/signin',
   'console' = '/console',
   'dashboard' = '/console/dashboard',
   'exampleDocument' = '/console/example-document',

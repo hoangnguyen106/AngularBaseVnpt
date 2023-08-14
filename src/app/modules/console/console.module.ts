@@ -7,6 +7,7 @@ import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ConsoleRoutes } from './console.routing';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 @NgModule({
   declarations: [DashboardComponent, ExampleComponent],
@@ -19,5 +20,6 @@ import { ConsoleRoutes } from './console.routing';
     RouterModule.forChild(ConsoleRoutes),
   ],
   exports: [RouterModule],
+  providers: [AuthGuard],
 })
 export class ConsoleModule {}

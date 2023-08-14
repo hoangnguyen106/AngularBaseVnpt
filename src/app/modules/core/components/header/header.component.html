@@ -175,5 +175,15 @@
         <i class="fas fa-th-large"></i>
       </a>
     </li>
+    <li class="nav-item">
+      <a
+        style="cursor: pointer"
+        class="nav-link"
+        (click)="logout()"
+        *ngIf="this.authService.isLoggedIn"
+      >
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </li>
   </ul>
 </nav>
