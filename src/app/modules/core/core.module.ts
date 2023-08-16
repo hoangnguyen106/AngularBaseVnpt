@@ -7,6 +7,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { CoreRoutes } from './core.routing';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { CoreRoutes } from './core.routing';
     FooterComponent,
     SidebarComponent,
     PageNotFoundComponent,
+    SearchComponent,
   ],
   imports: [CommonModule, RouterModule.forChild(CoreRoutes)],
   exports: [RouterModule],

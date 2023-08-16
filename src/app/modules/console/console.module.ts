@@ -13,6 +13,7 @@ import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { AddProjectComponent } from './components/add-project/add-project.component';
 import { EditProjectComponent } from './components/edit-project/edit-project.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DeleteProjectComponent } from './components/delete-project/delete-project.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ExampleComponent,
     AddProjectComponent,
     EditProjectComponent,
+    DeleteProjectComponent,
   ],
   imports: [
     CommonModule,

@@ -4,6 +4,9 @@ import { ProjectService } from '../../services/project.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AddProjectComponent } from '../add-project/add-project.component';
 import { EditProjectComponent } from '../edit-project/edit-project.component';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { DeleteProjectComponent } from '../delete-project/delete-project.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +27,9 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private bsModalService: BsModalService
+    private bsModalService: BsModalService,
+    private router: Router,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +50,8 @@ export class DashboardComponent implements OnInit {
     this.bsModalRef = this.bsModalService.show(AddProjectComponent);
     this.bsModalRef.content.event.subscribe((result: any) => {
       if (result == 'OK') {
+        this.toastrService.success('Add project successfully!!!');
+
         this.loadProject();
       }
     });
@@ -52,12 +59,27 @@ export class DashboardComponent implements OnInit {
 
   //Edit project form popup
   editProject(id: any) {
+    this.router.navigate(['/console/dashboard'], { queryParams: { id: id } });
     this.bsModalRef = this.bsModalService.show(EditProjectComponent);
     this.bsModalRef.content.event.subscribe((result: any) => {
       if (result == 'OK') {
+        this.toastrService.success('Update project successfully!!!');
         setTimeout(() => {
           this.loadProject();
         }, 3000);
+      }
+    });
+  }
+
+  // Delete project form popup
+  deleteProject(id: any) {
+    this.router.navigate(['/console/dashboard'], { queryParams: { id: id } });
+    this.bsModalRef = this.bsModalService.show(DeleteProjectComponent);
+    this.bsModalRef.content.event.subscribe((result: any) => {
+      if (result == 'OK') {
+        this.toastrService.success('Delete project successfully!!!');
+        this.projects = [];
+        this.loadProject();
       }
     });
   }

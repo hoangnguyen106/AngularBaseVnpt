@@ -3,7 +3,7 @@ import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { first } from 'rxjs';
+import { first, map } from 'rxjs';
 
 @Component({
   selector: 'app-edit-project',
@@ -12,7 +12,7 @@ import { first } from 'rxjs';
 })
 export class EditProjectComponent {
   editProject!: FormGroup;
-  id!: any;
+  id: any;
   event: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -24,11 +24,6 @@ export class EditProjectComponent {
   ) {}
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-    this.projectService.getById(this.id).subscribe(res=> {
-      console.log(res)
-    })
-
     this.editProject = this.fb.group({
       projectName: [''],
       description: [''],
@@ -38,13 +33,11 @@ export class EditProjectComponent {
       created: [''],
     });
 
-    this.projectService
-      .getById(this.id)
-      .pipe(first())
-      .subscribe((res) => {
-        console.log(res);
-        this.editProject.patchValue(res);
-      });
+    this.id = this.route.snapshot.queryParams['id'];
+    this.projectService.getById(this.id).subscribe((res) => {
+      console.log(res);
+      this.editProject.patchValue(res);
+    });
   }
 
   createItem(data: any): FormGroup {
@@ -76,6 +69,7 @@ export class EditProjectComponent {
     this.projectService
       .updateProject(this.id, this.editProject.value)
       .subscribe((res) => {
+        console.log(this.editProject.value);
         console.log(res);
         if (res != null) {
           this.event.emit('OK');
