@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ExampleComponent } from './components/example/example.component';
@@ -14,6 +14,8 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
 import { EditProjectComponent } from './components/edit-project/edit-project.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DeleteProjectComponent } from './components/delete-project/delete-project.component';
+import { SearchComponent } from './components/search/search.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { DeleteProjectComponent } from './components/delete-project/delete-proje
     AddProjectComponent,
     EditProjectComponent,
     DeleteProjectComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,
@@ -33,7 +36,9 @@ import { DeleteProjectComponent } from './components/delete-project/delete-proje
     HttpClientModule,
     ModalModule.forRoot(),
     NgxPaginationModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [RouterModule],
   providers: [AuthGuard, BsModalService],
 })

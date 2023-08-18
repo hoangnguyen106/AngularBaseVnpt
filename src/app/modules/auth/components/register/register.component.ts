@@ -1,8 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {
+  REGEXP_EMAIL,
+  REGEXP_NAME,
+  REGEXP_PASSWORD,
+} from 'src/app/modules/shared/constants/regexp';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -19,12 +31,34 @@ export class RegisterComponent implements OnInit {
     private toastrService: ToastrService
   ) {
     this.signupForm = this.fb.group({
-      name: [''],
-      email: [''],
-      password: [''],
+      name: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(REGEXP_NAME),
+        ]),
+        // this.validateUserNameFromApi.bind(this),
+      ],
+      email: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.email,
+          Validators.pattern(REGEXP_EMAIL),
+        ]),
+      ],
+      password: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(REGEXP_PASSWORD),
+        ]),
+      ],
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.validateUsername();
+  }
 
   // Register user
   registerUser() {
@@ -37,4 +71,18 @@ export class RegisterComponent implements OnInit {
       }
     });
   }
+
+  get name() {
+    return this.signupForm.get('name');
+  }
+
+  // validateUserNameFromApi(
+  //   control: AbstractControl
+  // ): Observable<ValidationErrors | null> {
+  //   return this.authService.validateUsername(control.value).pipe(
+  //     map((isValid: boolean) => {
+  //       return isValid ? null : { usernameDuplicated: true };
+  //     })
+  //   );
+  // }
 }

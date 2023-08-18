@@ -23,6 +23,18 @@
               </div>
             </div>
           </div>
+          <div
+            *ngIf="name!.invalid && (name!.dirty || name!.touched)"
+            style="color: red"
+          >
+            <div *ngIf="name!.errors?.['required']">Name is required.</div>
+            <div *ngIf="name!.errors?.['minlength']">
+              Name must be at least 4 characters long.
+            </div>
+            <div *ngIf="name!.errors?.['forbiddenName']">
+              Name cannot be Bob.
+            </div>
+          </div>
           <div class="input-group mb-3">
             <input
               type="email"
@@ -57,7 +69,11 @@
             </div>
             <!-- /.col -->
             <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                [disabled]="signupForm.invalid"
+              >
                 Register
               </button>
             </div>

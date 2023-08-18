@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from './modules/shared/config/authconfig.interceptor';
 import { AuthGuard } from './modules/core/guards/auth.guard';
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -28,6 +29,7 @@ import { AuthGuard } from './modules/core/guards/auth.guard';
       newestOnTop: false,
     }),
   ],
+
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

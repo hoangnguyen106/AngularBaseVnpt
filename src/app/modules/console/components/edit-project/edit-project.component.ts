@@ -1,16 +1,16 @@
-import { Component, EventEmitter } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { AfterViewInit, Component, EventEmitter, OnInit } from '@angular/core';
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { first, map } from 'rxjs';
+import { first, map, pluck, take } from 'rxjs';
 
 @Component({
   selector: 'app-edit-project',
   templateUrl: './edit-project.component.html',
   styleUrls: ['./edit-project.component.scss'],
 })
-export class EditProjectComponent {
+export class EditProjectComponent implements OnInit {
   editProject!: FormGroup;
   id: any;
   event: EventEmitter<any> = new EventEmitter();
@@ -25,12 +25,12 @@ export class EditProjectComponent {
 
   ngOnInit(): void {
     this.editProject = this.fb.group({
-      projectName: [''],
-      description: [''],
+      projectName: ['', Validators.required],
+      description: ['', Validators.required],
       teamMember: this.fb.array([]),
-      progress: [],
-      status: [''],
-      created: [''],
+      progress: [Validators.required],
+      status: ['', Validators.required],
+      created: ['', Validators.required],
     });
 
     this.id = this.route.snapshot.queryParams['id'];

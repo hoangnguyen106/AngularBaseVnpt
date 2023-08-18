@@ -85,7 +85,11 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <button type="submit" class="btn btn-success float-right">
+              <button
+                type="submit"
+                class="btn btn-success float-right"
+                [disabled]="addProject.invalid"
+              >
                 Create Project
               </button>
             </div>

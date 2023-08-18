@@ -7,7 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, delay, map, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,7 @@ export class AuthService {
   handle(req: HttpRequest<any>) {
     throw new Error('Method not implemented.');
   }
+  user = [];
   endpoint: string = 'http://localhost:4000/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
@@ -86,5 +87,18 @@ export class AuthService {
       msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(msg);
+  }
+
+  refreshToken() {
+    return this.http.post(
+      this.endpoint + 'refreshtoken',
+      {},
+      { headers: this.headers }
+    );
+  }
+
+  //Async validate formbuilder
+  validateUsername() {
+    return this.http.get(this.endpoint).subscribe((res) => console.log(res));
   }
 }

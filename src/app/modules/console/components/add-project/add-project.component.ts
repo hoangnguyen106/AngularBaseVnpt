@@ -3,6 +3,7 @@ import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-project',
@@ -17,7 +18,8 @@ export class AddProjectComponent {
     private projectService: ProjectService,
     public fb: FormBuilder,
     private router: Router,
-    private bsModalRef: BsModalRef
+    private bsModalRef: BsModalRef,
+    private spinner: NgxSpinnerService
   ) {
     this.addProject = this.fb.group({
       projectName: ['', Validators.required],

@@ -26,7 +26,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
-              "./node_modules/admin-lte/plugins/toastr/toastr.min.css"
+              "./node_modules/admin-lte/plugins/toastr/toastr.min.css",
+              "./node_modules/ngx-spinner/animations/ball-scale-multiple.css"
             ],
             "scripts": [
               "./node_modules/admin-lte/plugins/jquery/jquery.min.js",
