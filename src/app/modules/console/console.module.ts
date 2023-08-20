@@ -16,6 +16,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DeleteProjectComponent } from './components/delete-project/delete-project.component';
 import { SearchComponent } from './components/search/search.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import {
+  NgbActiveModal,
+  NgbModalRef,
+  NgbModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -37,9 +42,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ModalModule.forRoot(),
     NgxPaginationModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    NgbModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [RouterModule],
-  providers: [AuthGuard, BsModalService],
+  providers: [AuthGuard, BsModalService, NgbActiveModal],
 })
 export class ConsoleModule {}

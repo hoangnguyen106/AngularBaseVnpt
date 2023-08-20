@@ -1,9 +1,25 @@
-import { AfterViewInit, Component, EventEmitter, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { first, map, pluck, take } from 'rxjs';
+
+import {
+  ModalDismissReasons,
+  NgbActiveModal,
+  NgbModal,
+  NgbModalOptions,
+  NgbModalRef,
+} from '@ng-bootstrap/ng-bootstrap';
+import { Project } from 'src/app/modules/shared/models/project.model';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-edit-project',
@@ -13,17 +29,27 @@ import { first, map, pluck, take } from 'rxjs';
 export class EditProjectComponent implements OnInit {
   editProject!: FormGroup;
   id: any;
-  event: EventEmitter<any> = new EventEmitter();
+  modalOptions: NgbModalOptions;
+  @Input() item!: Project;
 
   constructor(
     private projectService: ProjectService,
     public fb: FormBuilder,
     private router: Router,
-    private bsModalRef: BsModalRef,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private ngbModal: NgbModal,
+    private _NgbActiveModal: NgbActiveModal
+  ) {
+    this.modalOptions = {
+      backdrop: 'static',
+      backdropClass: 'customBackdrop',
+    };
+  }
+
+  @ViewChild('content') addview!: ElementRef;
 
   ngOnInit(): void {
+    this.loadEditData(this.item.id);
     this.editProject = this.fb.group({
       projectName: ['', Validators.required],
       description: ['', Validators.required],
@@ -31,12 +57,6 @@ export class EditProjectComponent implements OnInit {
       progress: [Validators.required],
       status: ['', Validators.required],
       created: ['', Validators.required],
-    });
-
-    this.id = this.route.snapshot.queryParams['id'];
-    this.projectService.getById(this.id).subscribe((res) => {
-      console.log(res);
-      this.editProject.patchValue(res);
     });
   }
 
@@ -65,21 +85,31 @@ export class EditProjectComponent implements OnInit {
     }
   }
 
-  onEditProject() {
+  loadEditData(id: any) {
+    this.projectService.getById(id).subscribe((res) => {
+      console.log(res);
+      this.editProject.patchValue(res);
+    });
+  }
+
+  onSave(updatedItem: Project) {
+    // Emit the updated item to the parent component
+    this.loadEditData(updatedItem.id);
+    this.id = this.route.snapshot.queryParams['id'];
     this.projectService
       .updateProject(this.id, this.editProject.value)
       .subscribe((res) => {
-        console.log(this.editProject.value);
-        console.log(res);
         if (res != null) {
-          this.event.emit('OK');
-          this.bsModalRef.hide();
+          // this.event.emit('OK');
+          // console.log(this.event);
+          this._NgbActiveModal.close(updatedItem);
         }
+
         this.editProject.reset();
       });
   }
 
-  onClose() {
-    this.bsModalRef.hide();
+  onCancel(): void {
+    this._NgbActiveModal.dismiss();
   }
 }

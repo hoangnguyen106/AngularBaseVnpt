@@ -2,3 +2,7 @@
 @import "./theme.scss";
 @import "/node_modules/admin-lte/build/scss/AdminLTE.scss";
 @import "/node_modules/@ng-select/ng-select/themes/default.theme.css";
+
+ngb-modal-backdrop {
+  z-index: 1050 !important;
+}

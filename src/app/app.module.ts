@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from './modules/shared/config/authconfig.interceptor';
 import { AuthGuard } from './modules/core/guards/auth.guard';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -28,6 +29,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
       positionClass: 'toast-top-right',
       newestOnTop: false,
     }),
+    NgbModule,
   ],
 
   providers: [
