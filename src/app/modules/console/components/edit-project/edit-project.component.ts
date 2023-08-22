@@ -1,23 +1,9 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import {
-  ModalDismissReasons,
-  NgbActiveModal,
-  NgbModal,
-  NgbModalOptions,
-  NgbModalRef,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Project } from 'src/app/modules/shared/models/project.model';
 import { Input } from '@angular/core';
 
@@ -30,23 +16,21 @@ export class EditProjectComponent implements OnInit {
   editProject!: FormGroup;
   id: any;
   modalOptions: NgbModalOptions;
+  imageUrl = [];
   @Input() item!: Project;
 
   constructor(
     private projectService: ProjectService,
     public fb: FormBuilder,
-    private router: Router,
     private route: ActivatedRoute,
-    private ngbModal: NgbModal,
-    private _NgbActiveModal: NgbActiveModal
+    private _NgbActiveModal: NgbActiveModal,
+    private router: Router
   ) {
     this.modalOptions = {
       backdrop: 'static',
       backdropClass: 'customBackdrop',
     };
   }
-
-  @ViewChild('content') addview!: ElementRef;
 
   ngOnInit(): void {
     this.loadEditData(this.item.id);
@@ -88,6 +72,7 @@ export class EditProjectComponent implements OnInit {
   loadEditData(id: any) {
     this.projectService.getById(id).subscribe((res) => {
       console.log(res);
+      this.imageUrl = res.teamMember;
       this.editProject.patchValue(res);
     });
   }
@@ -100,16 +85,19 @@ export class EditProjectComponent implements OnInit {
       .updateProject(this.id, this.editProject.value)
       .subscribe((res) => {
         if (res != null) {
-          // this.event.emit('OK');
-          // console.log(this.event);
           this._NgbActiveModal.close(updatedItem);
+          this.router.navigate(['/console/dashboard'], {
+            queryParams: {},
+          });
         }
-
         this.editProject.reset();
       });
   }
 
   onCancel(): void {
     this._NgbActiveModal.dismiss();
+    this.router.navigate(['/console/dashboard'], {
+      queryParams: {},
+    });
   }
 }

@@ -1,22 +1,14 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  Component,
-  DoCheck,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/modules/shared/models/project.model';
 import { ProjectService } from '../../services/project.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AddProjectComponent } from '../add-project/add-project.component';
 import { EditProjectComponent } from '../edit-project/edit-project.component';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteProjectComponent } from '../delete-project/delete-project.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,11 +27,14 @@ export class DashboardComponent implements OnInit {
   tableSize: number = 5;
   tableSizes: any = [3, 6, 9, 12];
 
-  @ViewChild(EditProjectComponent) addview!: EditProjectComponent;
-  // @Input() event: any;
+  options: NgbModalOptions = {
+    size: 'lg',
+    backdrop: 'static',
+    backdropClass: 'light-blue-backdrop',
+  };
+
   constructor(
     private projectService: ProjectService,
-    private bsModalService: BsModalService,
     private router: Router,
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService,
@@ -60,9 +55,10 @@ export class DashboardComponent implements OnInit {
 
   // Add new project form popup
   addNewProject() {
-    this.bsModalRef = this.bsModalService.show(AddProjectComponent);
-    this.bsModalRef.content.event.subscribe((result: any) => {
-      if (result == 'OK') {
+    const modalRef = this.modalService.open(AddProjectComponent, this.options);
+
+    modalRef.result.then((result: any) => {
+      if (result) {
         this.spinner.show();
 
         setTimeout(() => {
@@ -79,26 +75,42 @@ export class DashboardComponent implements OnInit {
       queryParams: { id: item.id },
     });
 
-    const modalRef = this.modalService.open(EditProjectComponent);
+    const modalRef = this.modalService.open(EditProjectComponent, this.options);
     modalRef.componentInstance.item = item;
 
-    // if (this.event === 'OK') {
-    //   this.loadProject();
-    // }
+    modalRef.result.then((result: any) => {
+      if (result) {
+        this.spinner.show();
+
+        setTimeout(() => {
+          this.spinner.hide();
+          this.toastrService.success('Edit project successfully!!!');
+          console.log(result);
+          this.loadProject();
+        }, 1000);
+      }
+    });
   }
 
   // Delete project form popup
-  deleteProject(id: any) {
-    this.router.navigate(['/console/dashboard'], { queryParams: { id: id } });
+  deleteProject(item: Project) {
+    this.router.navigate(['/console/dashboard'], {
+      queryParams: { id: item.id },
+    });
     setTimeout(() => {
-      this.bsModalRef = this.bsModalService.show(DeleteProjectComponent);
-      this.bsModalRef.content.event.subscribe((result: any) => {
-        if (result == 'OK') {
+      const modalRef = this.modalService.open(
+        DeleteProjectComponent,
+        this.options
+      );
+      modalRef.componentInstance.item = item;
+      modalRef.result.then((result: any) => {
+        if (result) {
           this.spinner.show();
+
           setTimeout(() => {
             this.spinner.hide();
             this.toastrService.success('Delete project successfully!!!');
-            this.projects = [];
+            console.log(result);
             this.loadProject();
           }, 1000);
         }

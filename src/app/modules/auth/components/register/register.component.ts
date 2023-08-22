@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +8,6 @@ import {
   REGEXP_NAME,
   REGEXP_PASSWORD,
 } from 'src/app/modules/shared/constants/regexp';
-import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -37,7 +30,6 @@ export class RegisterComponent implements OnInit {
           Validators.required,
           Validators.pattern(REGEXP_NAME),
         ]),
-        // this.validateUserNameFromApi.bind(this),
       ],
       email: [
         '',
@@ -56,9 +48,7 @@ export class RegisterComponent implements OnInit {
       ],
     });
   }
-  ngOnInit(): void {
-    this.authService.validateUsername();
-  }
+  ngOnInit(): void {}
 
   // Register user
   registerUser() {
@@ -75,14 +65,10 @@ export class RegisterComponent implements OnInit {
   get name() {
     return this.signupForm.get('name');
   }
-
-  // validateUserNameFromApi(
-  //   control: AbstractControl
-  // ): Observable<ValidationErrors | null> {
-  //   return this.authService.validateUsername(control.value).pipe(
-  //     map((isValid: boolean) => {
-  //       return isValid ? null : { usernameDuplicated: true };
-  //     })
-  //   );
-  // }
+  get email() {
+    return this.signupForm.get('email');
+  }
+  get password() {
+    return this.signupForm.get('password');
+  }
 }

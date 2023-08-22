@@ -1,7 +1,9 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ProjectService } from '../../services/project.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Project } from 'src/app/modules/shared/models/project.model';
 
 @Component({
   selector: 'app-delete-project',
@@ -10,25 +12,31 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DeleteProjectComponent {
   id: any;
-  event: EventEmitter<any> = new EventEmitter();
+  @Input() item!: Project;
 
   constructor(
-    private bsModalRef: BsModalRef,
     private projectService: ProjectService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private _NgbActiveModal: NgbActiveModal
   ) {}
-  onDeleteProject() {
+  onDeleteProject(deleteItem: Project) {
     this.id = this.route.snapshot.queryParams['id'];
     this.projectService.deleteProject(this.id).subscribe((res) => {
       console.log(res);
       if (res != null) {
-        this.event.emit('OK');
-        this.bsModalRef.hide();
+        this._NgbActiveModal.close(deleteItem);
+        this.router.navigate(['/console/dashboard'], {
+          queryParams: {},
+        });
       }
     });
   }
 
   onClose() {
-    this.bsModalRef.hide();
+    this._NgbActiveModal.dismiss();
+    this.router.navigate(['/console/dashboard'], {
+      queryParams: {},
+    });
   }
 }

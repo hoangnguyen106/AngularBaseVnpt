@@ -41,6 +41,7 @@
                 formControlName="description"
               />
             </div>
+
             <div class="form-group">
               <label for="files">Team Members</label>
               <input
@@ -48,9 +49,20 @@
                 id="files"
                 multiple
                 class="form-control"
-                formArrayName="teamMember"
                 (change)="onFileChange($event)"
               />
+              <div class="d-flex">
+                <div
+                  formArrayName="teamMember"
+                  *ngFor="let item of photos.controls; let i = index"
+                >
+                  <img
+                    style="border-radius: 50%; display: inline; width: 2.5rem"
+                    [src]="item.value.url"
+                    alt="Image {{ i + 1 }}"
+                  />
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label for="inputProgress">Progress</label>

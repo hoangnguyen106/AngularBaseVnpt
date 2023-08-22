@@ -33,13 +33,6 @@ export class AuthService {
   // Login user
   siginIn(user: User) {
     return this.http.post<any>(`${this.endpoint}/signin`, user);
-    // .subscribe((res) => {
-    //   localStorage.setItem('access_token', res.token);
-    //   this.getUserProfile(res._id).subscribe((res) => {
-    //     this.currentUser = res;
-    //     this.router.navigate(['/user-profile/' + res.msg._id]);
-    //   });
-    // });
   }
 
   // Get token
@@ -95,10 +88,5 @@ export class AuthService {
       {},
       { headers: this.headers }
     );
-  }
-
-  //Async validate formbuilder
-  validateUsername() {
-    return this.http.get(this.endpoint).subscribe((res) => console.log(res));
   }
 }

@@ -43,6 +43,14 @@
             </div>
             <div class="form-group">
               <label for="files">Team Members</label>
+              <div class="d-flex">
+                <div *ngFor="let image of imageUrl" class="d-flex flex-row">
+                  <img
+                    style="border-radius: 50%; display: inline; width: 2.5rem"
+                    [src]="image['url']"
+                  />
+                </div>
+              </div>
               <input
                 type="file"
                 id="files"

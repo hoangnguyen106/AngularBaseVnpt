@@ -23,16 +23,21 @@
               </div>
             </div>
           </div>
+          <!-- <div
+            *ngIf="
+              signupForm.get('name')!.invalid && signupForm.get('name')!.touched
+            "
+          >
+            Name is required
+          </div> -->
           <div
             *ngIf="name!.invalid && (name!.dirty || name!.touched)"
             style="color: red"
           >
             <div *ngIf="name!.errors?.['required']">Name is required.</div>
-            <div *ngIf="name!.errors?.['minlength']">
-              Name must be at least 4 characters long.
-            </div>
-            <div *ngIf="name!.errors?.['forbiddenName']">
-              Name cannot be Bob.
+            <div *ngIf="name!.errors?.['pattern']">
+              Name must be at least 6 characters long and short than 32
+              character
             </div>
           </div>
           <div class="input-group mb-3">
@@ -41,12 +46,22 @@
               class="form-control"
               placeholder="Email"
               formControlName="email"
+              name="email"
               required
             />
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
               </div>
+            </div>
+          </div>
+          <div
+            *ngIf="email!.invalid && (email!.dirty || email!.touched)"
+            style="color: red"
+          >
+            <div *ngIf="email!.errors?.['required']">Email is required.</div>
+            <div *ngIf="email!.errors?.['pattern']">
+              Email must be in the correct format
             </div>
           </div>
           <div class="input-group mb-3">
@@ -56,11 +71,23 @@
               placeholder="Password"
               formControlName="password"
               required
+              name="password"
             />
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
               </div>
+            </div>
+          </div>
+          <div
+            *ngIf="password!.invalid && (password!.dirty || password!.touched)"
+            style="color: red"
+          >
+            <div *ngIf="password!.errors?.['required']">
+              Password is required.
+            </div>
+            <div *ngIf="password!.errors?.['pattern']">
+              Password must be in the correct format
             </div>
           </div>
           <div class="row">

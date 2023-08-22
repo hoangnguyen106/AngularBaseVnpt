@@ -1,9 +1,7 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
-import { Router } from '@angular/router';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-project',
@@ -12,14 +10,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class AddProjectComponent {
   addProject: FormGroup;
-  event: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private projectService: ProjectService,
     public fb: FormBuilder,
-    private router: Router,
-    private bsModalRef: BsModalRef,
-    private spinner: NgxSpinnerService
+    private _NgbActiveModal: NgbActiveModal
   ) {
     this.addProject = this.fb.group({
       projectName: ['', Validators.required],
@@ -61,15 +56,15 @@ export class AddProjectComponent {
   onAddProject() {
     this.projectService.addProject(this.addProject.value).subscribe((res) => {
       console.log(res);
+      console.log(this.photos);
       if (res != null) {
-        this.event.emit('OK');
-        this.bsModalRef.hide();
+        this._NgbActiveModal.close();
       }
       this.addProject.reset();
     });
   }
 
   onClose() {
-    this.bsModalRef.hide();
+    this._NgbActiveModal.dismiss();
   }
 }
